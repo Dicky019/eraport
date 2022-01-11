@@ -31,11 +31,11 @@ class DetailKomenView extends StatelessWidget {
                         title: 'Komentar',
                         middleText: data.komentar,
                       ),
-                      leading: CircleAvatar(
-                        backgroundColor: ColorPallet().yelowColor,
-                        child: Text("${i + 1}"),
-                        foregroundColor: Colors.white,
-                      ),
+                      // leading: CircleAvatar(
+                      //   backgroundColor: ColorPallet().yelowColor,
+                      //   child: Text("${i + 1}"),
+                      //   foregroundColor: Colors.white,
+                      // ),
                       title: Text(
                         data.kelas
                             .split(' ')
@@ -47,7 +47,16 @@ class DetailKomenView extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      trailing: Text(data.tahun),
+                      trailing: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(data.tahun.split(' ').join('-')),
+                          const SizedBox(
+                            height: 2.5,
+                          ),
+                          Text(data.semester),
+                        ],
+                      ),
                     ),
                   )),
             );
