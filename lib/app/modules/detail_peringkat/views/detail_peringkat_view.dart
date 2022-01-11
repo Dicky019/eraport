@@ -27,6 +27,11 @@ class DetailPeringkatView extends StatelessWidget {
                         : Colors.white,
                     // child: listSiswa(i, data),
                     child: ListTile(
+                      onTap: () => Get.defaultDialog(
+                        title: 'Peringkat',
+                        middleText:
+                            "Peringkat ${data.peringkat.juara} dari ${data.peringkat.jumlahOrang} siswa",
+                      ),
                       leading: CircleAvatar(
                         backgroundColor: ColorPallet().yelowColor,
                         child: Text("${i + 1}"),
@@ -39,7 +44,11 @@ class DetailPeringkatView extends StatelessWidget {
                             .join(' '),
                       ),
                       subtitle: Text(
-                          "Peringkat ${data.peringkat.juara} dari ${data.peringkat.jumlahOrang} siswa"),
+                        "Peringkat ${data.peringkat.juara} dari ${data.peringkat.jumlahOrang} siswa",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      trailing: Text(data.tahun),
                     ),
                   )),
             );

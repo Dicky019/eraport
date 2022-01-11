@@ -19,7 +19,6 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorPallet().primariColor,
         title: Obx(
           () => Text(
             controller.nameAppbar[controller.selectedIndex.value],
@@ -45,39 +44,44 @@ class HomeView extends GetView<HomeController> {
         ],
         centerTitle: true,
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 20,
-              color: Colors.black.withOpacity(.1),
-            )
-          ],
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-            child: Obx(() => GNav(
-                  rippleColor: Colors.grey[300]!,
-                  hoverColor: Colors.grey[100]!,
-                  gap: 8,
-                  activeColor: Colors.black,
-                  iconSize: 24,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  duration: const Duration(milliseconds: 400),
-                  tabBackgroundColor: Colors.grey[100]!,
-                  color: Colors.black,
-                  tabs: controller.listTab,
-                  selectedIndex: controller.selectedIndex.value,
-                  onTabChange: (index) {
-                    controller.selectedIndex.value = index;
-                  },
-                )),
-          ),
-        ),
-      ),
+      bottomNavigationBar: Obx(() => Container(
+            decoration: BoxDecoration(
+              color: controller.isDark.value
+                  ? ColorPallet().primariColor
+                  : Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 20,
+                  color: Colors.black.withOpacity(.1),
+                )
+              ],
+            ),
+            child: SafeArea(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+                child: Obx(() => GNav(
+                      rippleColor: Colors.grey[100]!,
+                      hoverColor: Colors.grey[100]!,
+                      gap: 8,
+                      activeColor: ColorPallet().yelowColor,
+                      iconSize: 24,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 12),
+                      duration: const Duration(milliseconds: 400),
+                      tabBackgroundColor: Colors.grey[100]!,
+                      color: controller.isDark.value
+                          ? Colors.white
+                          : ColorPallet().primariColor,
+                      tabs: controller.listTab,
+                      selectedIndex: controller.selectedIndex.value,
+                      onTabChange: (index) {
+                        controller.selectedIndex.value = index;
+                      },
+                    )),
+              ),
+            ),
+          )),
       body: Obx(
         () => controller.onloading.value == false
             ? controller.listWidget.elementAt(controller.selectedIndex.value)
@@ -187,12 +191,16 @@ class Home extends StatelessWidget {
                         : EdgeInsets.zero,
                     child: Obx(() => CardShadow(
                           vertical: 10,
-                          width: 270,
+                          width: 280,
                           color: controller.isDark.value
                               ? Colors.blueGrey[300]
                               : Colors.white,
                           // child: listSiswa(i, data),
                           child: ListTile(
+                            onTap: () => Get.defaultDialog(
+                              title: 'Komentar',
+                              middleText: data.komentar,
+                            ),
                             leading: CircleAvatar(
                               backgroundColor: ColorPallet().yelowColor,
                               child: Text("${i + 1}"),
@@ -205,7 +213,12 @@ class Home extends StatelessWidget {
                                       e[0].toUpperCase() + e.substring(1))
                                   .join(' '),
                             ),
-                            subtitle: Text(data.komentar),
+                            subtitle: Text(
+                              data.komentar,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            trailing: Text(data.tahun),
                           ),
                         )),
                   );
@@ -244,30 +257,40 @@ class Home extends StatelessWidget {
                     padding: i == 0
                         ? const EdgeInsets.only(top: 5)
                         : EdgeInsets.zero,
-                    child: Obx(() => CardShadow(
-                          horizontal: 20,
-                          // width: 200,
-                          color: controller.isDark.value
-                              ? Colors.blueGrey[300]
-                              : Colors.white,
-                          // child: listSiswa(i, data),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: ColorPallet().yelowColor,
-                              child: Text("${i + 1}"),
-                              foregroundColor: Colors.white,
-                            ),
-                            title: Text(
-                              data.kelas
-                                  .split(' ')
-                                  .map((e) =>
-                                      e[0].toUpperCase() + e.substring(1))
-                                  .join(' '),
-                            ),
-                            subtitle: Text(
-                                "Peringkat ${data.peringkat.juara} dari ${data.peringkat.jumlahOrang} siswa"),
+                    child: Obx(
+                      () => CardShadow(
+                        horizontal: 20,
+                        // width: 200,
+                        color: controller.isDark.value
+                            ? Colors.blueGrey[300]
+                            : Colors.white,
+                        // child: listSiswa(i, data),
+                        child: ListTile(
+                          onTap: () => Get.defaultDialog(
+                            title: 'Peringkat',
+                            middleText:
+                                "Peringkat ${data.peringkat.juara} dari ${data.peringkat.jumlahOrang} siswa",
                           ),
-                        )),
+                          leading: CircleAvatar(
+                            backgroundColor: ColorPallet().yelowColor,
+                            child: Text("${i + 1}"),
+                            foregroundColor: Colors.white,
+                          ),
+                          title: Text(
+                            data.kelas
+                                .split(' ')
+                                .map((e) => e[0].toUpperCase() + e.substring(1))
+                                .join(' '),
+                          ),
+                          subtitle: Text(
+                            "Peringkat ${data.peringkat.juara} dari ${data.peringkat.jumlahOrang} siswa",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          trailing: Text(data.tahun),
+                        ),
+                      ),
+                    ),
                   );
                 },
               ),

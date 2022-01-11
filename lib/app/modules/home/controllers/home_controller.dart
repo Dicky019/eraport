@@ -36,18 +36,23 @@ class HomeController extends GetxController {
   List<GButton> listTab = [
     GButton(
       icon: LineIcons.home,
+      backgroundColor: Colors.yellow[100],
+      // textColor: Colors.yellow,
       text: 'Home',
     ),
     GButton(
       icon: LineIcons.fileAlt,
+      backgroundColor: Colors.yellow[100],
       text: 'Nilai',
     ),
     GButton(
       icon: LineIcons.edit,
+      backgroundColor: Colors.yellow[100],
       text: 'Komen',
     ),
     GButton(
       icon: LineIcons.addressCard,
+      backgroundColor: Colors.yellow[100],
       text: 'Peringkat',
     ),
   ];

@@ -1,4 +1,4 @@
-import 'package:eraport/app/data/color.dart';
+
 import 'package:eraport/app/data/widgets/card_shadow.dart';
 import 'package:eraport/app/modules/home/controllers/home_controller.dart';
 import 'package:eraport/app/routes/app_pages.dart';
@@ -17,7 +17,7 @@ class DetailPersonView extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Profile'),
           centerTitle: true,
-          backgroundColor: ColorPallet().primariColor,
+          // backgroundColor: ColorPallet().primariColor,
           actions: [
             IconButton(
                 onPressed: () {
@@ -108,11 +108,14 @@ class Detail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<HomeController>();
     return Row(
       children: [
         Expanded(
           flex: 3,
           child: CardShadow(
+            color:
+                controller.isDark.value ? Colors.blueGrey[300] : Colors.white,
             child: SizedBox(
                 height: 40,
                 child: Align(
@@ -134,6 +137,8 @@ class Detail extends StatelessWidget {
         Expanded(
           flex: 6,
           child: CardShadow(
+            color:
+                controller.isDark.value ? Colors.blueGrey[300] : Colors.white,
             child: SizedBox(
               height: 40,
               child: Align(

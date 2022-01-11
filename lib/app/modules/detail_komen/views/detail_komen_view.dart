@@ -27,6 +27,10 @@ class DetailKomenView extends StatelessWidget {
                         : Colors.white,
                     // child: listSiswa(i, data),
                     child: ListTile(
+                      onTap: () => Get.defaultDialog(
+                        title: 'Komentar',
+                        middleText: data.komentar,
+                      ),
                       leading: CircleAvatar(
                         backgroundColor: ColorPallet().yelowColor,
                         child: Text("${i + 1}"),
@@ -38,7 +42,12 @@ class DetailKomenView extends StatelessWidget {
                             .map((e) => e[0].toUpperCase() + e.substring(1))
                             .join(' '),
                       ),
-                      subtitle: Text(data.komentar),
+                      subtitle: Text(
+                        data.komentar,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      trailing: Text(data.tahun),
                     ),
                   )),
             );
