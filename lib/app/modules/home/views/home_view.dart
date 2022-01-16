@@ -35,7 +35,9 @@ class HomeView extends GetView<HomeController> {
         actions: [
           IconButton(
             onPressed: () {
-              Get.offAllNamed(Routes.LOGIN);
+              controller.prefs.clear().whenComplete(
+                    () => Get.offAllNamed(Routes.LOGIN),
+                  );
             },
             icon: const Icon(
               LineIcons.alternateSignOut,
@@ -141,6 +143,8 @@ class Home extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: List.generate(
                 controller.nilaiSiswa.length,
                 (i) {
@@ -181,6 +185,8 @@ class Home extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: List.generate(
                 controller.nilaiSiswa.length,
                 (i) {
@@ -242,18 +248,11 @@ class Home extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: LihatSemuaWidget(
               onPressed: () {
-                // Get.toNamed(
-                //   Routes.DETAIL_NILAI,
-                //   arguments: controller.nilaiSiswa,
-                // );
-                controller.selectedIndex.value = 2;
+                controller.selectedIndex.value = 3;
               },
               label: 'Peringkat Kelas',
-              button: false,
+              // button: false,
             ),
-          ),
-          SizedBox(
-            height: 10,
           ),
           SingleChildScrollView(
             // scrollDirection: Axis.horizontal,

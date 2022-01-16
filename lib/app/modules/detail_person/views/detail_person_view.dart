@@ -21,7 +21,9 @@ class DetailPersonView extends StatelessWidget {
           actions: [
             IconButton(
                 onPressed: () {
-                  Get.offAllNamed(Routes.LOGIN);
+                  controller.prefs.clear().whenComplete(
+                        () => Get.offAllNamed(Routes.LOGIN),
+                      );
                 },
                 icon: const Icon(LineIcons.alternateSignOut))
           ],
@@ -67,7 +69,7 @@ class DetailPersonView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Detail(
-                subTitel: controller.nis,
+                subTitel: controller.nis.split(' ').join('/').toString(),
                 titel: 'Nis',
               ),
             ),

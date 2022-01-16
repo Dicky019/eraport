@@ -9,10 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
-
   final selectedIndex = 0.obs;
 
   final onloading = false.obs;
@@ -21,6 +20,8 @@ class HomeController extends GetxController {
   final rank = RankingController();
   var jam = 19;
   var selamatDatang = "";
+  late SharedPreferences prefs;
+  final _prefs = SharedPreferences.getInstance();
   late InfoSiswa infoSiswa =
       InfoSiswa("nis", "namaOrangTua", "noOrtu", "imageSiswa");
 
@@ -198,6 +199,12 @@ class HomeController extends GetxController {
     await getDataNilaiSiswa();
     // print();
     //
+    var nisSiswa = '';
+    if (nis.split(' ').toList().length == 2) {
+      nisSiswa = nis.split(' ').join('/').toString();
+    } else {
+      nisSiswa = nis;
+    }
     onloading.value = !onloading.value;
     for (var i = 0; i < nilaiSiswa.length; i++) {
       var nilai = nilaiSiswa[i];
@@ -216,15 +223,15 @@ class HomeController extends GetxController {
       var info = nilaiSiswa[i];
       item.sort((a, b) {
         var nilai = a.nama!.compareTo(b.nama!);
-        print("${a.nama} -- ${b.nama} $nilai");
+        // print("${a.nama} -- ${b.nama} $nilai");
         if (b.jumlahNilai.compareTo(a.jumlahNilai) == 0) {
           return a.nama!.compareTo(b.nama!);
         }
         return b.jumlahNilai.compareTo(a.jumlahNilai);
       });
       for (var i = 0; i < item.length; i++) {
-        if (item[i].nama == infoSiswa.nama && item[i].nis == nis) {
-          print("assssssss${i + 1} ${item.length}");
+        if (item[i].nama == infoSiswa.nama && item[i].nis == nisSiswa) {
+          print("assssssss ${i + 1} ${item.length}");
           info.peringkat = Peringkat(i + 1, item.length);
         }
       }
@@ -237,6 +244,9 @@ class HomeController extends GetxController {
       const DetailPeringkatView(),
       const DetailPersonView(),
     ];
+
+    prefs = await _prefs;
+
     onloading.value = !onloading.value;
     // var listRank = listRanking;
 

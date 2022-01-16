@@ -2,8 +2,11 @@ import 'dart:async';
 import 'package:connectivity/connectivity.dart';
 import 'package:eraport/app/modules/home/views/home_view.dart';
 import 'package:eraport/app/modules/login/views/login_view.dart';
+import 'package:eraport/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyConnectionLogin extends StatefulWidget {
   MyConnectionLogin({
@@ -17,10 +20,11 @@ class MyConnectionLogin extends StatefulWidget {
 class _MyConnectionLoginState extends State<MyConnectionLogin>
     with SingleTickerProviderStateMixin {
   final Duration duration = const Duration(milliseconds: 500);
+  final _prefs = SharedPreferences.getInstance();
 
   bool startAnimation = false;
   bool startBroke = false;
-  AnimationController? _animationController;
+  // AnimationController? _animationController;
   String _connectionStatus = 'Unknown';
   int status = 0;
   final Connectivity _connectivity = Connectivity();
@@ -28,25 +32,36 @@ class _MyConnectionLoginState extends State<MyConnectionLogin>
 
   @override
   void initState() {
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 250),
-      vsync: this,
-    )..addListener(() {
-        setState(() {});
-      });
-    Future.delayed(const Duration(milliseconds: 100), () {
-      setState(() {
-        startAnimation = true;
-      });
-    });
+    // _animationController = AnimationController(
+    //   duration: const Duration(milliseconds: 250),
+    //   vsync: this,
+    // )..addListener(() {
+    //     setState(() {});
+    //   });
+    // Future.delayed(const Duration(milliseconds: 100), () {
+    //   setState(() {
+    //     startAnimation = true;
+    //   });
+    // });
 
-    Future.delayed(const Duration(milliseconds: 700), () {
-      _animationController!.forward();
-    });
+    // Future.delayed(const Duration(milliseconds: 700), () {
+    //   _animationController!.forward();
+    // });
+    
     super.initState();
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    
+    // var get = await _prefs;
+    // var _nis = get.getString("nis") ?? '';
+    // print(_nis);
+    // if (_nis != '') {
+    //   Get.offAllNamed(
+    //     Routes.HOME,
+    //     arguments: _nis,
+    //   );
+    // }
   }
 
   @override
@@ -109,17 +124,6 @@ class NoConnectionScreen extends StatelessWidget {
             "assets/1_No Connection.png",
             fit: BoxFit.cover,
           ),
-          // Positioned(
-          //   bottom: 100,
-          //   left: 30,
-          //   child: FlatButton(
-          //     color: Colors.white,
-          //     shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(50)),
-          //     onPressed: () {},
-          //     child: Text("Retry".toUpperCase()),
-          //   ),
-          // )
         ],
       ),
     );

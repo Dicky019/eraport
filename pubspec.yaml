@@ -15,6 +15,7 @@ dependencies:
   percent_indicator: ^3.4.0
   google_nav_bar: ^5.0.5
   animations: ^2.0.2
+  shared_preferences: ^2.0.12
   flutter: 
     sdk: flutter
 

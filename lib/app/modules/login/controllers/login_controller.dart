@@ -2,23 +2,30 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eraport/app/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
-  //TODO: Implement LoginController
-
-  final count = 0.obs;
   final users = FirebaseFirestore.instance;
-  final nis = TextEditingController(text: "21.003.001");
-  final nama = TextEditingController(text: "ADRIAN MARWANTO LOLO");
+  final nis = TextEditingController(text: "");
+  final nama = TextEditingController(text: "");
+  final _prefs = SharedPreferences.getInstance();
 
   Future login() async {
-    await users.collection("Siswa").doc(nis.text).get().then((value) {
+    var nisSiswa = "";
+    if (nis.text.split('/').toList().length == 2) {
+      nisSiswa = nis.text.split('/').join(' ').trim().toString();
+    } else {
+      nisSiswa = nis.text;
+    }
+    await users.collection("Siswa").doc(nisSiswa).get().then((value) async {
       if (value.data()!['nama'] == nama.text) {
+        final SharedPreferences prefs = await _prefs;
+        prefs.setString("nis", nisSiswa);
+        nis.clear();
+        nama.clear();
         Get.offAndToNamed(
           Routes.HOME,
-          arguments: nis.text,
+          arguments: nisSiswa,
         );
       } else if (value.data()!['nama'] != nama.text) {
         // Get.offAndToNamed(Routes.HOME);
@@ -29,14 +36,21 @@ class LoginController extends GetxController {
     });
   }
 
-  
-
   void dialog(String title, String middleText, List<Widget> actions) {
     Get.defaultDialog(title: title, middleText: middleText, actions: actions);
   }
 
   @override
-  void onInit() {
+  void onInit() async {
+    var get = await _prefs;
+    var _nis = get.getString("nis") ?? '';
+    print(_nis);
+    if (_nis != '') {
+      Get.offAllNamed(
+        Routes.HOME,
+        arguments: _nis,
+      );
+    }
     super.onInit();
   }
 
@@ -45,7 +59,7 @@ class LoginController extends GetxController {
     super.onReady();
   }
 
+
   @override
   void onClose() {}
-  void increment() => count.value++;
 }

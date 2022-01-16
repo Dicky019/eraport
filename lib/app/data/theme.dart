@@ -13,6 +13,5 @@ class Themes {
       appBarTheme: AppBarTheme(backgroundColor: ColorPallet().primariColor),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: ColorPallet().yelowColor)
-    // buttonColor: Colors.red,
   );
 }

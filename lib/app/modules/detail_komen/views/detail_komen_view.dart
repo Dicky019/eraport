@@ -31,11 +31,6 @@ class DetailKomenView extends StatelessWidget {
                         title: 'Komentar',
                         middleText: data.komentar,
                       ),
-                      // leading: CircleAvatar(
-                      //   backgroundColor: ColorPallet().yelowColor,
-                      //   child: Text("${i + 1}"),
-                      //   foregroundColor: Colors.white,
-                      // ),
                       title: Text(
                         data.kelas
                             .split(' ')
